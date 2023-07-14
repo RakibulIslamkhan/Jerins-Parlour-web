@@ -4,11 +4,11 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <Box sx={{ bgcolor: "#ff1493", color: "#fff", pt: 6, pb: 12 }}>
+    <Box sx={{ bgcolor: "#ff1493", color: "#fff", pt: 6, pb: {xs:6,md:12} }}>
       <Container maxWidth="lg">
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Image src={"/map.png"} height={20} width={20} alt="map"/>
                 <Typography sx={{ml:2}}>
@@ -17,7 +17,7 @@ export default function Footer() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={6} md={2}>
               <Box>
                 <Typography variant="h6" gutterBottom>
                   Company
@@ -29,7 +29,7 @@ export default function Footer() {
                 <li style={{marginTop:15}}>Submit Listing</li>
               </Box>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={6} md={2}>
               <Box>
                 <Typography variant="h6" gutterBottom>
                   Company
@@ -41,7 +41,7 @@ export default function Footer() {
                 <li style={{marginTop:15}}>Submit Listing</li>
               </Box>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Box>
                 <Typography variant="h6" gutterBottom>
                   About Us

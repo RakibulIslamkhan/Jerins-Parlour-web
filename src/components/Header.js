@@ -19,14 +19,17 @@ import { useState } from "react";
 import { AuthContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import Error from "./Error";
+import { useMediaQuery, useTheme } from "@mui/material";
 
-const pages = ["Home", "Our Portfolio", "Our Team", "Contact Us"];
+const pages = ["Our Portfolio", "Our Team", "Contact Us"];
 const settings = ["Dashboard"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { user, logOutUser, error, setError } = React.useContext(AuthContext);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -49,7 +52,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "#FFF8F5", color: "#000" }}>
+    <AppBar position="static" sx={{ bgcolor: "#FFF8F5", color: "#000", boxShadow:'none' }}>
       {error && <Error open={open} error={error} setOpen={setOpen} />}
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
@@ -59,7 +62,7 @@ function ResponsiveAppBar() {
             </Link>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent:{xs:'flex-end'} }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -85,39 +88,47 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                // width: isMobile ? '100%' : undefined,
+                display: { xs: "block", md: "none" }, 
+                '& .MuiMenu-paper': {
+                  left:{xs:"0px !important",},
+                  width:{xs:'100%'},
+                  maxWidth:{xs:'100% !important'},
+                  boxShadow:{xs:'none'} // Customize menu border radius
+                },// Set 100% width on mobile view
               }}
             >
               {pages.map((page, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                <MenuItem key={index} onClick={handleCloseNavMenu} sx={{justifyContent:'center'}}>
                   <Typography textAlign="center" color="#000">
                     {page}
                   </Typography>
                 </MenuItem>
               ))}
+              {user?.email ? (
+                <Box sx={{ alignItems: "center", display:'flex', justifyContent:'center' }}>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    {user.photoURL ? <Avatar alt="User" src={user?.photoURL} /> : <Avatar alt="User" src={`https://robohash.org/${user.email}`} />}
+                  </IconButton>
+                  <Typography sx={{ ml: 2 }}>{user?.displayName}</Typography>
+                </Box>
+              ) : (
+                  <Link
+                    href="/login"
+                    style={{ color: "#fff", textDecoration: "none" }}
+                  >
+                <Button variant="contained" sx={{ width: "120px" }}>
+                    Login
+                </Button>
+                  </Link>
+              )}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Button sx={{ my: 2, color: "#000", display: "block", mr: 1.5 }}>
+                <Link href="/">Home</Link>
+              </Button>
               {pages.map((page, index) => (
                 <Button
                   key={index}
@@ -131,10 +142,10 @@ function ResponsiveAppBar() {
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, }}>
               {/* <Tooltip> */}
               {user?.email ? (
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: {xs:'none', md:"flex"}, alignItems: "center" }}>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     {user.photoURL ? <Avatar alt="User" src={user?.photoURL} /> : <Avatar alt="User" src={`https://robohash.org/${user.email}`} />}
                   </IconButton>
@@ -152,7 +163,7 @@ function ResponsiveAppBar() {
               )}
               {/* </Tooltip> */}
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{ mt: "45px",}}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{

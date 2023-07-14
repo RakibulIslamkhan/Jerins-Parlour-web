@@ -8,18 +8,18 @@ import Image from 'next/image';
 
 function MainFeaturedPost() {
   return (
-    <Box sx={{bgcolor:'#FFF8F5',pt:10, pb:4}}>
+    <Box sx={{bgcolor:'#FFF8F5',pt:{xs:4, md:10}, pb:4}}>
     <Container maxWidth="lg" >
-      <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+      <Box sx={{display:'flex', justifyContent:'space-between', alignItems:'center',flexDirection:{xs:'column', md:'row'}, gap:{xs:6, md:0}}}>
         <Box>
           <Box
             sx={{
               position: 'relative',
               pr: { md: 0 },
-              width:'80%'
+              width:{xs:'100%',md:'80%'}
             }}
           >
-            <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+            <Typography component="h1" variant="h3" color="inherit" gutterBottom sx={{fontSize:{xs:"34px"}}}>
             BEAUTY SALON FOR EVERY WOMEN
             </Typography>
             <Typography variant="body1" color="inherit" paragraph>

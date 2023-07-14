@@ -14,11 +14,12 @@ export default function LetUs() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            gap:10
+            gap:10,
+            flexDirection:{xs:'column', md:'row'}
           }}
         >
-          <Box>
-            <Image src={"/engin.png"} height={300} width={500} alt="engin"/>
+          <Box sx={{position:'relative', height:300, width:'100%'}}>
+            <Image src={"/engin.png"} fill={true}  alt="engin"/>
           </Box>
           <Box>
             <Box
@@ -32,6 +33,7 @@ export default function LetUs() {
                 color="inherit"
                 gutterBottom
                 fontWeight={'bold'}
+                sx={{fontSize:{xs:'32px'}}}
               >
                 Let us handle your screen <span style={{color:'#ff1493'}}>Professionally.</span>
               </Typography>

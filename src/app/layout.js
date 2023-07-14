@@ -18,21 +18,21 @@ const theme = createTheme({
           props: { variant: "outlined" },
           style: {
             textTransform: "none",
-            boxShadow: 'none',
+            boxShadow: "none",
           },
         },
         {
           props: { variant: "contained" },
           style: {
             textTransform: "none",
-            boxShadow: 'none',
+            boxShadow: "none",
           },
         },
         {
           props: { variant: "text" },
           style: {
             textTransform: "capitalize",
-            boxShadow: 'none',
+            boxShadow: "none",
           },
         },
       ],
@@ -58,17 +58,18 @@ const theme = createTheme({
 });
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const hideHeader = pathname === "/login" || pathname === "/dashboard" ? false : true;
+  const hideHeader =
+    pathname === "/login" || pathname === "/dashboard" ? false : true;
   return (
-    <UserContext>
-      <ThemeProvider theme={theme}>
-        <html lang="en">
-          <body className={inter.className}>
+    <html lang="en">
+      <body className={inter.className}>
+        <UserContext>
+          <ThemeProvider theme={theme}>
             {hideHeader && <ResponsiveAppBar />}
             {children}
-          </body>
-        </html>
-      </ThemeProvider>
-    </UserContext>
+          </ThemeProvider>
+        </UserContext>
+      </body>
+    </html>
   );
 }
