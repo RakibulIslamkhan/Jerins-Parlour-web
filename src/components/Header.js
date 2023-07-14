@@ -117,7 +117,7 @@ function ResponsiveAppBar() {
                     href="/login"
                     style={{ color: "#fff", textDecoration: "none" }}
                   >
-                <Button variant="contained" sx={{ width: "120px" }}>
+                <Button variant="contained" sx={{ width: "100%" }}>
                     Login
                 </Button>
                   </Link>
@@ -156,7 +156,7 @@ function ResponsiveAppBar() {
                     href="/login"
                     style={{ color: "#fff", textDecoration: "none" }}
                   >
-                <Button variant="contained" sx={{ width: "120px" }}>
+                <Button variant="contained" sx={{ width: "120px" ,display: {xs:'none', md:"flex"},}}>
                     Login
                 </Button>
                   </Link>

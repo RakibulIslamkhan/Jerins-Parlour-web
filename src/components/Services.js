@@ -24,7 +24,7 @@ export default function Services() {
         <Typography variant="h4" fontWeight={"bold"} textAlign={"center"}>
           Our Awesome <span style={{ color: "#ff1493" }}>Services</span>
         </Typography>
-        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 8, flexWrap:'wrap', gap:4 }}>
+        <Box sx={{ display: "flex", justifyContent: {xs:'center',md:"space-between"}, mt: 8, flexWrap:'wrap', gap:4 }}>
           {service?.slice(0, visibleCards)?.map((data) => (
             <Card sx={{ maxWidth: 345, textAlign: "center", py:2 }} key={data._id}>
               <Image src={`data:image/png;base64,${data.image}`} height={60} width={60} alt="icon"/>
