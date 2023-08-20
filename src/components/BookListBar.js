@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 export default function BookListBar() {
   const { info } = useContext(AuthContext);
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-evenly", gap:2, flexWrap:'wrap' }}>
+    <Box sx={{ display: "flex", justifyContent: "space-evenly", gap:2, flexWrap:'wrap', mx:2, }}>
       {info.length === 0 && <Box sx={{display:'flex', alignItems:'center'}}><Typography color='red' variant="h3">You Have No Book yet !</Typography></Box>}
       {info.map((card) => (
         <Card sx={{ maxWidth: 345, p: 2 }}>
@@ -30,8 +30,8 @@ export default function BookListBar() {
               {card.status}
             </Typography>
           </Box>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+          <CardContent sx={{p:"0 !important", py:'1rem !important'}}>
+            <Typography gutterBottom variant="h5" component="div" sx={{fontSize:{xs:'1.5rem'}}}>
               {card.service}
             </Typography>
             <Typography variant="body2" color="text.secondary">

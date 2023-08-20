@@ -39,7 +39,7 @@ export default function AddService() {
   };
   return (
     <Container maxWidth="lg">
-      <Box sx={{ width: "400px", mt: 3 }}>
+      <Box sx={{ width: {xs:'100%',md:"400px"}, mt: 3 }}>
         <form onSubmit={handleSubmit}>
           <TextField
             id="outlined-basic"

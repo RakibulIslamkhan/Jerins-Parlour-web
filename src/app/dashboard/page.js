@@ -1,5 +1,5 @@
 
-import PrivateRoute from '@/Auth/User'
+import PrivateRoute from '@/auth/User'
 import DashboardTwo from '@/components/DashboardTwo'
 import React from 'react'
 

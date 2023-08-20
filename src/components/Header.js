@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import Error from "./Error";
 import { useMediaQuery, useTheme } from "@mui/material";
 
-const pages = ["Our Portfolio", "Our Team", "Contact Us"];
+const pages = ["Portfolio", "Team", "Contact Us"];
 const settings = ["Dashboard"];
 
 function ResponsiveAppBar() {
@@ -29,7 +29,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { user, logOutUser, error, setError } = React.useContext(AuthContext);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -52,17 +52,26 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "#FFF8F5", color: "#000", boxShadow:'none' }}>
+    <AppBar
+      position="static"
+      sx={{ bgcolor: "#FFF8F5", color: "#000", boxShadow: "none" }}
+    >
       {error && <Error open={open} error={error} setOpen={setOpen} />}
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Link href="/">
-              <Image src={"logoTwo.svg"} width={128} height={48} alt="logo"/>
+              <Image src={"logoTwo.svg"} width={128} height={48} alt="logo" />
             </Link>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent:{xs:'flex-end'} }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              justifyContent: { xs: "flex-end" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -89,38 +98,55 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               sx={{
                 // width: isMobile ? '100%' : undefined,
-                display: { xs: "block", md: "none" }, 
-                '& .MuiMenu-paper': {
-                  left:{xs:"0px !important",},
-                  width:{xs:'100%'},
-                  maxWidth:{xs:'100% !important'},
-                  boxShadow:{xs:'none'} // Customize menu border radius
-                },// Set 100% width on mobile view
+                display: { xs: "block", md: "none" },
+                "& .MuiMenu-paper": {
+                  left: { xs: "0px !important" },
+                  width: { xs: "100%" },
+                  maxWidth: { xs: "100% !important" },
+                  boxShadow: { xs: "none" }, // Customize menu border radius
+                }, // Set 100% width on mobile view
               }}
             >
               {pages.map((page, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu} sx={{justifyContent:'center'}}>
-                  <Typography textAlign="center" color="#000">
-                    {page}
-                  </Typography>
-                </MenuItem>
+                  <MenuItem
+                    key={index}
+                    onClick={handleCloseNavMenu}
+                    sx={{ justifyContent: "center" }}
+                  >
+                    <Typography textAlign="center" color="#000">
+                      {page}
+                    </Typography>
+                  </MenuItem>
               ))}
               {user?.email ? (
-                <Box sx={{ alignItems: "center", display:'flex', justifyContent:'center' }}>
+                <Box
+                  sx={{
+                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {user.photoURL ? <Avatar alt="User" src={user?.photoURL} /> : <Avatar alt="User" src={`https://robohash.org/${user.email}`} />}
+                    {user.photoURL ? (
+                      <Avatar alt="User" src={user?.photoURL} />
+                    ) : (
+                      <Avatar
+                        alt="User"
+                        src={`https://robohash.org/${user.email}`}
+                      />
+                    )}
                   </IconButton>
-                  <Typography sx={{ ml: 2 }}>{user?.displayName}</Typography>
+                  {/* <Typography sx={{ ml: 2 }}>{user?.displayName}</Typography> */}
                 </Box>
               ) : (
-                  <Link
-                    href="/login"
-                    style={{ color: "#fff", textDecoration: "none" }}
-                  >
-                <Button variant="contained" sx={{ width: "100%" }}>
+                <Link
+                  href="/login"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                >
+                  <Button variant="contained" sx={{ width: "100%" }}>
                     Login
-                </Button>
-                  </Link>
+                  </Button>
+                </Link>
               )}
             </Menu>
           </Box>
@@ -141,29 +167,46 @@ function ResponsiveAppBar() {
                 </Button>
               ))}
             </Box>
-
-            <Box sx={{ flexGrow: 0, }}>
-              {/* <Tooltip> */}
+            <Box sx={{ flexGrow: 0 }}>
               {user?.email ? (
-                <Box sx={{ display: {xs:'none', md:"flex"}, alignItems: "center" }}>
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {user.photoURL ? <Avatar alt="User" src={user?.photoURL} /> : <Avatar alt="User" src={`https://robohash.org/${user.email}`} />}
-                  </IconButton>
-                  <Typography sx={{ ml: 2 }}>{user?.displayName}</Typography>
-                </Box>
-              ) : (
-                  <Link
-                    href="/login"
-                    style={{ color: "#fff", textDecoration: "none" }}
+                <Tooltip title="Profile">
+                  <Box
+                    sx={{
+                      display: { xs: "none", md: "flex" },
+                      alignItems: "center",
+                    }}
                   >
-                <Button variant="contained" sx={{ width: "120px" ,display: {xs:'none', md:"flex"},}}>
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0, border: 1 }}
+                    >
+                      {user.photoURL ? (
+                        <Avatar alt="User" src={user?.photoURL} />
+                      ) : (
+                        <Avatar
+                          alt="User"
+                          src={`https://robohash.org/${user.email}`}
+                        />
+                      )}
+                    </IconButton>
+                    {/* <Typography sx={{ ml: 2 }}>{user?.displayName}</Typography> */}
+                  </Box>
+                </Tooltip>
+              ) : (
+                <Link
+                  href="/login"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    sx={{ width: "120px", display: { xs: "none", md: "flex" } }}
+                  >
                     Login
-                </Button>
-                  </Link>
+                  </Button>
+                </Link>
               )}
-              {/* </Tooltip> */}
               <Menu
-                sx={{ mt: "45px",}}
+                sx={{ mt: "45px" }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -178,14 +221,17 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
+                <MenuItem>
+                  <Typography sx={{ textTransform: "capitalize" }}>
+                    {user?.displayName}
+                  </Typography>
+                </MenuItem>
                 {settings.map((setting, index) => (
-                  <>
-                    <MenuItem key={index} onClick={handleCloseUserMenu}>
-                      <Link href={`/${setting.toLocaleLowerCase()}`}>
-                        <Typography textAlign="center">{setting}</Typography>
-                      </Link>
-                    </MenuItem>
-                  </>
+                  <MenuItem key={index} onClick={handleCloseUserMenu}>
+                    <Link href={`/${setting.toLocaleLowerCase()}`}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </Link>
+                  </MenuItem>
                 ))}
                 <MenuItem onClick={handleLogOut}>Logout</MenuItem>
               </Menu>

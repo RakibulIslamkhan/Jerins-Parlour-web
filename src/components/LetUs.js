@@ -1,9 +1,7 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import { Button, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import Image from 'next/image';
 export default function LetUs() {
   return (
@@ -19,7 +17,7 @@ export default function LetUs() {
           }}
         >
           <Box sx={{position:'relative', height:300, width:'100%'}}>
-            <Image src={"/engin.png"} fill={true}  alt="engin"/>
+            <Image src={"/engin.png"} width={350} height={350}  alt="engin"/>
           </Box>
           <Box>
             <Box

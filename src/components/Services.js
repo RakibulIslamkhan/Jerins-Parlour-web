@@ -8,9 +8,7 @@ import Image from "next/image";
 export default function Services() {
   const [service, setService] = useState([]);
   const [visibleCards, setVisibleCards] = useState(3);
-
   const handleExplore = () => {
-    // Increase the number of visible cards
     setVisibleCards(prevVisibleCards => prevVisibleCards + 3);
   };
   useEffect(() => {

@@ -69,6 +69,8 @@ export default function RootLayout({ children }) {
             {children}
           </ThemeProvider>
         </UserContext>
+        <script src="https://smtpjs.com/v3/smtp.js">
+</script>
       </body>
     </html>
   );

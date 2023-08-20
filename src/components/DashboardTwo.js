@@ -160,7 +160,7 @@ function MiniDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{boxShadow:'none'}}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <IconButton
             color="inherit"
@@ -260,7 +260,7 @@ function MiniDrawer() {
               ))}
         </List>
       </Drawer>
-      <Box sx={{ bgcolor: "#F4F7FC", height: "100vh", width: "100%", pt: 10 }}>
+      <Box sx={{ bgcolor: "#F4F7FC", height: "100%", width: "100%", pt: 10 }}>
         {activePage === "Book" && <BookBar />}
         {activePage === "Booking List" && <BookListBar />}
         {activePage === "Review" && <ReviewBar />}

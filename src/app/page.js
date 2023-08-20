@@ -5,6 +5,7 @@ import HeroBg from "@/components/HeroBg";
 import LetUs from "@/components/LetUs";
 import Services from "@/components/Services";
 import Testimonials from "@/components/Testimonials";
+import From from "@/components/From";
 export default function Home() {
   return (
     <main>
@@ -12,6 +13,7 @@ export default function Home() {
       <Services />
       <LetUs />
       <Testimonials />
+      <From/>
       <Footer />
     </main>
   );

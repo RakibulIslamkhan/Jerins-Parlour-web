@@ -14,8 +14,15 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { AuthContext } from "@/context/userContext";
 import Error from "./Error";
-import { LockOutlined } from "@mui/icons-material";
+import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import Link from "next/link";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -36,21 +43,30 @@ function Copyright(props) {
 
 export default function SignInSide() {
   const router = useRouter();
-  const { signIn, googleSignIn, setError, error, user, loading } = useContext(AuthContext);
+  const { signIn, googleSignIn, setError, error, user, loading } =
+    useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const handleGoogle = () => {
     googleSignIn()
       .then((result) => {
         const user = result.user;
-        const email = {email:user.email, displayName:user.displayName}
-        fetch('https://hidden-beyond-00743-b937df4edd39.herokuapp.com/users',{
-          method:'POST',
-          headers:{
-            'content-type':'application/json'
+        const email = { email: user.email, displayName: user.displayName };
+        fetch("https://hidden-beyond-00743-b937df4edd39.herokuapp.com/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
           },
-          body:JSON.stringify(email)
-        }).then(res =>res.json())
-        .then(data=>console.log(data))
+          body: JSON.stringify(email),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
         router.push("/");
       })
       .catch((error) => {
@@ -74,7 +90,6 @@ export default function SignInSide() {
         setError(errorMessage);
         setOpen(true);
       });
-      
   };
 
   return (
@@ -131,16 +146,29 @@ export default function SignInSide() {
                 autoComplete="email"
                 autoFocus
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+              <FormControl sx={{ my: 1,}} variant="outlined" fullWidth>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  fullWidth
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
@@ -173,12 +201,18 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/" style={{textDecoration:'underline',color:'#ff1493'}}>
+                  <Link
+                    href="/"
+                    style={{ textDecoration: "underline", color: "#ff1493" }}
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" style={{textDecoration:'underline',color:'#ff1493'}}>
+                  <Link
+                    href="/signup"
+                    style={{ textDecoration: "underline", color: "#ff1493" }}
+                  >
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

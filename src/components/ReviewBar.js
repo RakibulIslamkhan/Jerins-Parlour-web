@@ -25,7 +25,7 @@ export default function ReviewBar() {
   };
   return (
     <Container maxWidth="lg" sx={{ my: 3 }}>
-      <Box sx={{ width: "400px" }}>
+      <Box sx={{ width: {xs:'100%',md:"400px"} }}>
         <Grid container>
           <Grid item xs={12}>
             <form onSubmit={handleSubmit}>

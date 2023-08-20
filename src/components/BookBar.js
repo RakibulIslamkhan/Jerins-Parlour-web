@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { DateField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {toast} from "react-hot-toast";
 import ToastComponent from "./ToastComponent";
 
@@ -24,6 +24,7 @@ import ToastComponent from "./ToastComponent";
 export default function BookBar() {
   const {user} = useContext(AuthContext);
   const [service, setService] = useState("");
+  const [titles, setTitles] = useState([])
   const [paymentInfo, setPaymentInfo] = useState({name:user.displayName, email:user.email,});
   const handleChange = (e) => {
     const filed = e.target.name;
@@ -33,7 +34,7 @@ export default function BookBar() {
     setService(value)
     setPaymentInfo(newService)
   };
-  const handleSubmit =async (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault()
     handleInputBlur(e)
     fetch('https://hidden-beyond-00743-b937df4edd39.herokuapp.com/books',{
@@ -45,6 +46,7 @@ export default function BookBar() {
     })
     .then(res => res.json())
     .then(data => {
+      toast.success('he')
       if (data.insertedId) {
         toast.success('Pay Complete');
       } else {
@@ -63,11 +65,16 @@ export default function BookBar() {
     newPayment[filed] = value;
     setPaymentInfo(newPayment)
   }
+  useEffect(() => {
+    fetch("https://hidden-beyond-00743-b937df4edd39.herokuapp.com/services")
+      .then((res) => res.json())
+      .then((data) => setTitles(data));
+  }, []);
   return (
     <div>
       <ToastComponent/>
       <Container maxWidth="lg" sx={{ my: 3 }}>
-        <Box sx={{ width: "400px" }}>
+        <Box sx={{width: {xs:'100%',md:"400px"} }}>
           <Grid container>
             <Grid item xs={12}>
             <form onSubmit={handleSubmit}>
@@ -100,12 +107,11 @@ export default function BookBar() {
                   value={service}
                   label="Services"
                   onChange={handleChange}
-                  // onBlur={(e) => handleInputBlur(e)}
                   name='service'
                 >
-                  <MenuItem value={'Anti Age Face Treatment'}>Anti Age Face Treatment</MenuItem>
-                  <MenuItem value={'Hair Color & Styling'}>Hair Color & Styling</MenuItem>
-                  <MenuItem value={'Skin Care Treatment'}>Skin Care Treatment</MenuItem>
+                  {
+                    titles.map((title) => <MenuItem key={title._id} value={title.title}>{title.title}</MenuItem>)
+                  }
                 </Select>
               </FormControl>
               <FormControl sx={{mt:3}}>
@@ -138,6 +144,7 @@ export default function BookBar() {
                 id="outlined-basic"
                 label="Card Number"
                 variant="outlined"
+                type="number"
                 fullWidth
                 sx={{ my: 3 }}
                 onBlur={(e) => handleInputBlur(e)}
@@ -152,6 +159,7 @@ export default function BookBar() {
                   id="outlined-basic"
                   label="CVC"
                   variant="outlined"
+                  type="number"
                   onBlur={(e) => handleInputBlur(e)}
                   name='cvc'
                   required

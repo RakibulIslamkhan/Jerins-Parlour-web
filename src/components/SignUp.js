@@ -6,14 +6,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/userContext";
-import { LockOutlined } from "@mui/icons-material";
+import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  OutlinedInput,
+} from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -38,7 +45,33 @@ function Copyright(props) {
 export default function SignUp() {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const { createUser, updateUserName, error, setError } = React.useContext(AuthContext);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [passwordError, setPasswordError] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handlePasswordChange = (event) => {
+    const newPassword = event.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+  };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const validatePassword = (newPassword) => {
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordPattern.test(newPassword)) {
+      setPasswordError(
+        "Password must be at least 8 characters long, contain one uppercase letter, and one special character."
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+  const { createUser, updateUserName, error, setError } =
+    React.useContext(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -46,7 +79,7 @@ export default function SignUp() {
     const password = data.get("password");
     const firstName = data.get("firstName");
     const lastName = data.get("lastName");
-    const user = {email, displayName: firstName +" "+ lastName}
+    const user = { email, displayName: firstName + " " + lastName };
     createUser(email, password)
       .then((result) => {
         updateUserName(firstName, lastName);
@@ -57,14 +90,15 @@ export default function SignUp() {
         setError(errorMessage);
         setOpen(true);
       });
-      fetch('https://hidden-beyond-00743-b937df4edd39.herokuapp.com/users',{
-        method:'POST',
-        headers:{
-          'content-type':'application/json'
-        },
-        body:JSON.stringify(user)
-      }).then(res =>res.json())
-      .then(data=>console.log(data))
+    fetch("https://hidden-beyond-00743-b937df4edd39.herokuapp.com/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -84,7 +118,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -118,15 +152,33 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-              />
+              <FormControl sx={{ my: 1 }} variant="outlined" fullWidth required>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={handlePasswordChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+                {passwordError && (
+                  <span style={{ color: "red", fontSize:'12px' }}>{passwordError}</span>
+                )}
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
@@ -145,14 +197,14 @@ export default function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/Login" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Login
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
+      <Copyright sx={{ my: 5 }} />
     </Container>
   );
 }
